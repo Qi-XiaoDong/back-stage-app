@@ -1,11 +1,28 @@
 <template>
   <div id="app">
-    app
+    <!-- 视图显示 -->
+    <div class="view">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
-<style lang="less">
+<script>
+export default {
+  name: "app"
+};
+</script>
+
+<style lang="less" scoped>
 #app {
-  color: @color;
+  min-width: 1190px;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: aquamarine;
+}
+.view {
+  height: 100%;
 }
 </style>

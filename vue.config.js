@@ -12,4 +12,4 @@ module.exports = {
       patterns: [path.resolve(__dirname, "src/assets/less/_themeStyle.less")]
     }
   }
-}
+};
