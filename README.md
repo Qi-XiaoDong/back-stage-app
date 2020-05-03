@@ -25,9 +25,9 @@
 
   - 导致原因: 变量后没有加分号``` ; ```
 
-## 引入elementui库
+## 公共组件开发
 
-> 按需引入
+> 引入elementui库 按需引入
 
 - 顶部导航菜单和左侧导航联动
 
@@ -39,3 +39,19 @@
 
 - 构建页面组件,联通公共组件
 
+## mock 和axios配置
+
+> mock: mock配置
+> api: axios 配置
+
+## Home页面开发
+
+### 首页布局
+
+> 使用el-card
+> 封装echarts
+
+## 用户页面开发
+
+> 封装 MineUserForm
+> 封装 MineUserTable

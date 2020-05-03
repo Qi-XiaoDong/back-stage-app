@@ -15,7 +15,16 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Tag,
-  RadioGroup
+  RadioGroup,
+  Row,
+  Col,
+  Card,
+  Table,
+  TableColumn,
+  Form,
+  FormItem,
+  Input,
+  Pagination
 } from "element-ui";
 
 Vue.use(Button);
@@ -34,3 +43,12 @@ Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
 Vue.use(Tag);
 Vue.use(RadioGroup);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(Card);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Input);
+Vue.use(Pagination);

@@ -2,7 +2,7 @@ const path = require("path");
 module.exports = {
   // 配置项⽬启动端⼝及⾃动打开浏览器
   devServer: {
-    port: 3333,
+    port: 3334,
     open: true
   },
   // 全局注入less样式
