@@ -13,7 +13,9 @@ import {
   Dropdown,
   DropdownItem,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Tag,
+  RadioGroup
 } from "element-ui";
 
 Vue.use(Button);
@@ -30,3 +32,5 @@ Vue.use(DropdownItem);
 Vue.use(Dropdown);
 Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
+Vue.use(Tag);
+Vue.use(RadioGroup);

@@ -2,7 +2,7 @@
   <div class="layout">
     <el-container class="layout_warp">
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside width="auto">
         <my-aside></my-aside>
       </el-aside>
       <el-container class="mine_worp">
@@ -12,8 +12,8 @@
         </el-header>
         <!-- 内容区域 -->
         <el-main>
-          <!-- <router-view></router-view> -->
-          mine
+          <tags></tags>
+          <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -23,10 +23,12 @@
 <script>
 import MyHeader from "@/components/Header.vue";
 import MyAside from "@/components/Aside.vue";
+import Tags from "@/components/MineTabs.vue";
 export default {
   components: {
     MyHeader,
-    MyAside
+    MyAside,
+    Tags
   }
 };
 </script>

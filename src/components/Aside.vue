@@ -6,6 +6,7 @@
       background-color="#66bcff"
       text-color="#000"
       active-text-color="#fff"
+      :collapse="collapse"
     >
       <!-- 有子项 -->
       <el-submenu
@@ -33,7 +34,7 @@
         v-for="noChildItem in noChild"
         :key="noChildItem.path"
         :index="noChildItem.path"
-        @click="clickMenu(noChildItem.label)"
+        @click="clickMenu(noChildItem)"
       >
         <i :class="'el-icon-' + noChildItem.icon"></i>
         <span slot="title">{{ noChildItem.label }}</span>
@@ -43,22 +44,26 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       asideMenu: [
         {
-          path: "/",
+          path: "/home",
+          name: "home",
           label: "首页",
           icon: "s-home"
         },
         {
           path: "/video",
+          name: "video",
           label: "视频管理",
           icon: "video-camera"
         },
         {
           path: "/user",
+          name: "user",
           label: "用户管理",
           icon: "user"
         },
@@ -67,11 +72,13 @@ export default {
           children: [
             {
               path: "/page1",
+              name: "page1",
               label: "页面一",
               icon: "video-camera"
             },
             {
               path: "/page2",
+              name: "page2",
               label: "页面二",
               icon: "user"
             }
@@ -81,9 +88,13 @@ export default {
     };
   },
   methods: {
+    /**
+     * 点击侧边栏目录
+     */
     clickMenu(item) {
-      console.log(this.$store);
-      this.$store.commit('selectMemu', item);
+      this.$store.commit("tab/selectMemuAndAddTag", item);
+      // 跳转到相关路由
+      this.$router.push(item.path);
     }
   },
   computed: {
@@ -92,12 +103,17 @@ export default {
     },
     hasChild() {
       return this.asideMenu.filter(ele => ele.children);
-    }
+    },
+    ...mapState("tab", {
+      collapse: state => state.isCollapse
+    })
   }
 };
 </script>
-
 <style lang="less" scoped>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+}
 .aside {
   height: 100%;
   ul {
