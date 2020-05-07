@@ -12,11 +12,11 @@ Mock.mock(/\/home\/getStatisticalData/, "get", homeApi.getStatisticalData);
 
 // 用户相关
 Mock.mock(/\/user\/getUser/, "get", userApi.getUserList);
-Mock.mock(/\/user\/del/, "get", userApi.deleteUser);
-Mock.mock(/\/user\/batchremove/, "get", userApi.batchremove);
-Mock.mock(/\/user\/add/, "post", userApi.createUser);
-Mock.mock(/\/user\/edit/, "post", userApi.updateUser);
+Mock.mock(/\/user\/delUser/, "get", userApi.deleteUser);
+Mock.mock(/\/user\/batchremoveUser/, "get", userApi.batchremove);
+Mock.mock(/\/user\/addUser/, "post", userApi.createUser);
+Mock.mock(/\/user\/updateUser/, "post", userApi.updateUser);
 Mock.mock(/\/home\/getData/, "get", homeApi.getStatisticalData);
 
 // 权限相关
-Mock.mock(/\/permission\/getMenu/, "post", permissionApi.getMenu);
+Mock.mock(/\/login/, "post", permissionApi.login);

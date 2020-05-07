@@ -40,17 +40,17 @@ export default {
    * @return {{code: number, count: number, data: *[]}}
    */
   getUserList: config => {
-    const { name, page = 1, limit = 7 } = param2Obj(config.url);
+    const { name, page = 1, limit = 5 } = param2Obj(config.url);
     console.log("name:" + name, "page:" + page, "分页大小limit:" + limit);
+    // 过滤数据根据关键字查询
     const mockList = List.filter(user => {
-      if (
-        name &&
-        user.name.indexOf(name) === -1 &&
-        user.addr.indexOf(name) === -1
-      )
+      if (name && user.name.indexOf(name) === -1) {
         return false;
+      }
+
       return true;
     });
+    //对根据关键字过滤后的数据进行分页返回
     const pageList = mockList.filter(
       (item, index) => index < limit * page && index >= limit * (page - 1)
     );
@@ -66,8 +66,10 @@ export default {
    * @return {{code: number, data: {message: string}}}
    */
   createUser: config => {
-    const { name, addr, age, birth, sex } = JSON.parse(config.body);
+    // 获取到传递的参数
+    const { name, addr, age, birth, sex } = JSON.parse(config.body).data;
     console.log(JSON.parse(config.body));
+    // 在原有的数据中添加
     List.unshift({
       id: Mock.Random.guid(),
       name: name,
@@ -84,7 +86,7 @@ export default {
     };
   },
   /**
-   * 删除用户
+   * 根据id删除用户
    * @param id
    * @return {*}
    */
@@ -93,7 +95,7 @@ export default {
     if (!id) {
       return {
         code: -999,
-        message: "参数不正确"
+        message: "请输入id"
       };
     } else {
       List = List.filter(u => u.id !== id);
@@ -120,12 +122,12 @@ export default {
     };
   },
   /**
-   * 修改用户
+   * 根据id修改用户
    * @param id, name, addr, age, birth, sex
    * @return {{code: number, data: {message: string}}}
    */
   updateUser: config => {
-    const { id, name, addr, age, birth, sex } = JSON.parse(config.body);
+    const { id, name, addr, age, birth, sex } = JSON.parse(config.body).data;
     const sex_num = parseInt(sex);
     List.some(u => {
       if (u.id === id) {

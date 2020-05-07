@@ -1,8 +1,8 @@
 <template>
   <header class="header">
-    <!-- 面包屑导航 -->
+    <!-- 点击展开收缩菜单栏 -->
     <div class="nav">
-      <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+      <el-radio-group v-model="isCollapse">
         <el-button
           type="primary"
           icon="el-icon-menu"
@@ -11,13 +11,8 @@
         >
         </el-button>
       </el-radio-group>
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-      </el-breadcrumb>
     </div>
+    <!-- 点击展开收缩菜单栏结束 -->
     <!-- 用户登录 -->
     <div class="header_login">
       <el-dropdown trigger="click">
@@ -25,10 +20,14 @@
           <img :src="userImg" />
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人中心</el-dropdown-item>
-          <el-dropdown-item>退出登录</el-dropdown-item>
+          <template v-if="token">
+            <el-dropdown-item>个人中心</el-dropdown-item>
+            <el-dropdown-item @click.native="logOut">退出登录</el-dropdown-item>
+          </template>
+          <!-- <el-dropdown-item v-else>登录</el-dropdown-item> -->
         </el-dropdown-menu>
       </el-dropdown>
+      <!-- 用户登录 -->
     </div>
   </header>
 </template>
@@ -39,7 +38,7 @@ export default {
     return {
       userImg: require("@/assets/images/user.png"),
       showLabel: true,
-      isCollapse: true
+      isCollapse: true // 侧边栏是否显示
     };
   },
   methods: {
@@ -48,6 +47,20 @@ export default {
      */
     showMenu() {
       this.$store.commit("tab/isCollapseChange");
+    },
+    logOut() {
+      this.$store.commit("user/clearToken");
+      this.$store.commit("user/clearAccess");
+      this.$store.commit("tab/clearMenu");
+      this.$store.commit("tab/clearTag");
+
+      location.reload();
+    }
+  },
+  computed: {
+    token() {
+      // console.log(this.$store.state.user)
+      return this.$store.state.user.token;
     }
   }
 };
@@ -60,11 +73,7 @@ export default {
   align-items: center;
   .nav {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    .el-button {
-      margin-right: 20px;
-    }
   }
   .header_login {
     img {
@@ -78,8 +87,7 @@ export default {
 </style>
 
 <style lang="less">
-.el-breadcrumb__inner.is-link {
-  color: #fff;
-  font-size: 16px;
+.el-dropdown-menu__item {
+  text-align: center;
 }
 </style>

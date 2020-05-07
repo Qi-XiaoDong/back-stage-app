@@ -10,7 +10,7 @@
             <img :src="userImg" alt="" />
             <div class="user-info">
               <p class="user-name">Nick</p>
-              <p class="user-acces">超级管理员</p>
+              <p class="user-acces">{{ access }}</p>
             </div>
           </div>
           <!-- 登录信息 -->
@@ -21,6 +21,7 @@
         </el-card>
         <!-- 下边 -->
         <el-card shadow="hover" class="bottom">
+          <!-- 表格 -->
           <el-table :data="tableData" stripe style="width: 100%">
             <el-table-column
               show-overflow-tooltip
@@ -33,6 +34,7 @@
           </el-table>
         </el-card>
       </el-col>
+      <!-- 右侧 -->
       <el-col :span="15" class="minehome_detail">
         <!-- 数字区域 -->
         <div class="num">
@@ -57,16 +59,27 @@
         <!-- 折线图 -->
         <div>
           <el-card shadow="hover" class="line-chart">
-            折线图
+            <my-echarts
+              style="height: 280px"
+              :chartData="echartData.order"
+            ></my-echarts>
           </el-card>
         </div>
         <!-- 图表 -->
         <div class="chart">
+          <!-- 柱形图 -->
           <el-card shadow="hover" class="chart-item">
-            柱形图
+            <my-echarts
+              style="height: 260px"
+              :chartData="echartData.user"
+            ></my-echarts>
           </el-card>
+          <!-- 饼图 -->
           <el-card shadow="hover" class="chart-item">
-            图表
+            <my-echarts
+              style="height: 260px"
+              :chartData="echartData.video"
+            ></my-echarts>
           </el-card>
         </div>
       </el-col>
@@ -76,6 +89,7 @@
 
 <script>
 import axios from "@/api/homeRequest";
+import MyEcharts from "@/components/Echarts.vue";
 export default {
   data() {
     return {
@@ -118,14 +132,38 @@ export default {
           color: "#7dfcd5"
         }
       ],
-      tableData: [],
+      tableData: [], // 表格数据
       tableLabel: {
+        // 表格列
         name: "品类",
         todayBuy: "今日购买",
         monthBuy: "本月购买",
         totalBuy: "总购买"
+      },
+      // 图表数据
+      echartData: {
+        order: {
+          xData: [],
+          series: []
+        },
+        user: {
+          xData: [],
+          series: []
+        },
+        video: {
+          series: []
+        }
       }
     };
+  },
+  computed: {
+    access() {
+      console.log(this.$store.state.user.name);
+      return this.$store.state.user.access;
+    }
+  },
+  components: {
+    MyEcharts
   },
   created() {
     this.getTableData();
@@ -134,8 +172,35 @@ export default {
     /**请求home数据 */
     getTableData() {
       axios.getHomeData().then(res => {
-        this.tableData = res.data.data.tableData;
-        console.log(this.tableData);
+        res = res.data;
+        //表格数据
+        this.tableData = res.data.tableData;
+        // 订单折线图
+        const order = res.data.orderData;
+        // 得到横坐标数据
+        this.echartData.order.xData = order.date;
+        // 第一步取出series中的name部分——键名
+        let keyArray = Object.keys(order.data[0]);
+        // 第二步，循环添加数据
+        keyArray.forEach(key => {
+          this.echartData.order.series.push({
+            name: key,
+            data: order.data.map(item => item[key]),
+            type: "line"
+          });
+        });
+        // 用户柱状图
+        this.echartData.user.xData = res.data.userData.map(item => item.date);
+        this.echartData.user.series.push({
+          name: "新增用户",
+          data: res.data.userData.map(item => item.new),
+          type: "bar"
+        });
+        // 视频饼图
+        this.echartData.video.series.push({
+          data: res.data.videoData,
+          type: "pie"
+        });
       });
     }
   }

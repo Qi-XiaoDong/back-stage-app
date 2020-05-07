@@ -8,6 +8,7 @@
       <el-input
         v-model="form[item.model]"
         :placeholder="'请输入' + item.label"
+        :type="item.inputType ? item.inputType : 'text'"
         v-if="!item.type"
       ></el-input>
       <el-select

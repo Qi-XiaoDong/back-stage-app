@@ -1,11 +1,12 @@
 <template>
   <div class="common-table">
-    <el-table :data="tableData" height="90%" stripe>
+    <el-table :data="tableData" height="90%" stripe v-loading="config.loading">
       <!-- 每个表格都有序号 -->
       <el-table-column label="序号" width="85">
         <template slot-scope="scope">
+          <!-- 使用$index结合每页展示数量计算序号 -->
           <span style="margin-left: 10px">{{
-            (config.page - 1) * 20 + scope.$index + 1
+            (config.page - 1) * 5 + scope.$index + 1
           }}</span>
         </template>
       </el-table-column>
@@ -21,6 +22,7 @@
           <span style="margin-left: 10px">{{ scope.row[item.prop] }}</span>
         </template>
       </el-table-column>
+      <!-- 操作列 -->
       <el-table-column label="操作" min-width="180">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
@@ -36,7 +38,7 @@
       :total="config.total"
       :current-page.sync="config.page"
       @current-change="changePage"
-      :page-size="20"
+      :page-size="5"
     >
     </el-pagination>
   </div>
@@ -56,8 +58,11 @@ export default {
     handleDelete(row) {
       this.$emit("del", row);
     },
-    changePage(page) {
-      this.$emit("changePage", page);
+    /**
+     * 触发父组件的页码改变事件
+     */
+    changePage() {
+      this.$emit("changePage");
     }
   }
 };

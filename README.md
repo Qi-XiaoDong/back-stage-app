@@ -55,3 +55,11 @@
 
 > 封装 MineUserForm
 > 封装 MineUserTable
+
+### 问题
+
+> 使用element的Message控件，页面刷新时弹出空的提示消息
+
+- 将Vue.use(Message)改为Vue.component(Message.name, Message)即可
+
+## 根据用户权限动态获取路由权限

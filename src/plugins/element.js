@@ -24,7 +24,14 @@ import {
   Form,
   FormItem,
   Input,
-  Pagination
+  Pagination,
+  Loading,
+  Dialog,
+  Select,
+  DatePicker,
+  Option,
+  MessageBox,
+  Message
 } from "element-ui";
 
 Vue.use(Button);
@@ -52,3 +59,17 @@ Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Input);
 Vue.use(Pagination);
+Vue.use(Loading);
+Vue.use(Dialog);
+Vue.use(Select);
+Vue.use(DatePicker);
+Vue.use(Option);
+Vue.component(Message.name, Message);
+Vue.component(MessageBox.name, MessageBox);
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$prompt = MessageBox.prompt;
+Vue.prototype.$notify = Notification;
+Vue.prototype.$message = Message;

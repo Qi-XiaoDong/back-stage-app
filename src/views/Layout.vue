@@ -12,7 +12,7 @@
         </el-header>
         <!-- 内容区域 -->
         <el-main>
-          <tags></tags>
+          <tags v-if="token"></tags>
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -29,6 +29,11 @@ export default {
     MyHeader,
     MyAside,
     Tags
+  },
+  computed: {
+    token() {
+      return this.$store.state.user.token;
+    }
   }
 };
 </script>

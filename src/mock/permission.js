@@ -1,8 +1,9 @@
 import Mock from "mockjs";
 export default {
-  getMenu: config => {
-    const { username, password } = JSON.parse(config.body);
-    console.log(JSON.parse(config.body));
+  login: config => {
+    // 得到账号密码
+    const { username, password } = JSON.parse(config.body).data;
+    console.log(JSON.parse(config.body).data);
     // 先判断用户是否存在
     if (username === "admin" || username === "wp") {
       // 判断账号和密码是否对应
@@ -10,75 +11,77 @@ export default {
         return {
           code: 20000,
           data: {
-            menu: [
+            asideMenu: [
               {
-                path: "/",
+                path: "home",
                 name: "home",
                 label: "首页",
                 icon: "s-home",
-                url: "Home/Home"
+                url: "MineHome"
               },
               {
-                path: "/video",
+                path: "video",
                 name: "video",
-                label: "视频管理页",
-                icon: "video-play",
-                url: "VideoManage/VideoManage"
+                label: "视频管理",
+                icon: "video-camera",
+                url: "MineVideo"
               },
               {
-                path: "/user",
+                path: "user",
                 name: "user",
-                label: "用户管理页",
+                label: "用户管理",
                 icon: "user",
-                url: "UserManage/UserManage"
+                url: "MineUser"
               },
               {
                 label: "其他",
-                icon: "location",
+                icon: "video-camera",
                 children: [
                   {
-                    path: "/page1",
+                    path: "page1",
                     name: "page1",
-                    label: "页面1",
-                    icon: "setting",
-                    url: "Other/PageOne"
+                    label: "页面一",
+                    icon: "video-camera",
+                    url: "MineOtherPageOne"
                   },
                   {
-                    path: "/page2",
+                    path: "page2",
                     name: "page2",
-                    label: "页面2",
-                    icon: "setting",
-                    url: "Other/PageTwo"
+                    label: "页面二",
+                    icon: "user",
+                    url: "MineOtherPageTwo"
                   }
                 ]
               }
             ],
             token: Mock.Random.guid(),
-            message: "获取成功"
+            message: "获取成功",
+            name: "超级管理员"
           }
         };
       } else if (username === "wp" && password === "123456") {
         return {
           code: 20000,
           data: {
-            menu: [
+            asideMenu: [
               {
-                path: "/",
+                path: "home",
                 name: "home",
                 label: "首页",
                 icon: "s-home",
-                url: "Home/Home"
+                url: "MineHome"
               },
               {
-                path: "/video",
+                path: "video",
                 name: "video",
-                label: "视频管理页",
-                icon: "video-play",
-                url: "VideoManage/VideoManage"
+                label: "视频管理",
+                icon: "video-camera",
+                url: "MineVideo"
               }
             ],
             token: Mock.Random.guid(),
-            message: "获取成功"
+            message: "获取成功",
+            name: "普通用户"
           }
         };
       } else {

@@ -1,15 +1,17 @@
 <template>
   <div class="tag_warp">
-    <el-tag
-      v-for="tag in tags"
-      :key="tag.label"
-      :closable="tag.label === '首页' ? false : true"
-      @close="closeTag(tag)"
-      @click="routerChange(tag)"
-      :effect="tag.label === menuCurrent.label ? 'dark' : 'plain'"
-    >
-      {{ tag.label }}
-    </el-tag>
+    <template v-if="tags.length !== 0">
+      <el-tag
+        v-for="tag in tags"
+        :key="tag.label"
+        :closable="tag.label === '首页' ? false : true"
+        @close="closeTag(tag)"
+        @click="routerChange(tag)"
+        :effect="tag.label === menuCurrent.label ? 'dark' : 'plain'"
+      >
+        {{ tag.label }}
+      </el-tag>
+    </template>
   </div>
 </template>
 
@@ -23,8 +25,8 @@ export default {
   },
   computed: {
     ...mapState("tab", {
-      tags: state => state.tagsArr,
-      menuCurrent: state => state.menuCurrent
+      tags: state => state.tagsArr, //顶部标签页
+      menuCurrent: state => state.menuCurrent // 当前路由展示页
     })
   },
   methods: {

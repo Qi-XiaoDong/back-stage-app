@@ -1,34 +1,18 @@
 <template>
   <div class="aside">
     <el-menu
-      default-active="2"
       class="el-menu-vertical-demo"
       background-color="#66bcff"
       text-color="#000"
       active-text-color="#fff"
       :collapse="collapse"
     >
-      <!-- 有子项 -->
-      <el-submenu
-        v-for="hasChildItem in hasChild"
-        :key="hasChildItem.label"
-        :index="hasChildItem.label"
+      <router-link to="/home" tag="h3" class="systemtitle" v-show="collapse"
+        >后台</router-link
       >
-        <template slot="title">
-          <i class="el-icon-"></i>
-          <span>{{ hasChildItem.label }}</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item
-            v-for="item in hasChildItem.children"
-            :key="item.path"
-            :index="item.path"
-          >
-            <i :class="'el-icon-' + item.icon"></i>
-            <span slot="title">{{ item.label }}</span>
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+      <router-link to="/home" tag="h3" class="systemtitle" v-show="!collapse"
+        >后台管理系统</router-link
+      >
       <!-- 没有子项 -->
       <el-menu-item
         v-for="noChildItem in noChild"
@@ -39,6 +23,28 @@
         <i :class="'el-icon-' + noChildItem.icon"></i>
         <span slot="title">{{ noChildItem.label }}</span>
       </el-menu-item>
+      <!-- 有子项 -->
+      <el-submenu
+        v-for="hasChildItem in hasChild"
+        :key="hasChildItem.label"
+        :index="hasChildItem.label"
+      >
+        <template slot="title">
+          <i :class="'el-icon-' + hasChildItem.icon"></i>
+          <span>{{ hasChildItem.label }}</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item
+            v-for="item in hasChildItem.children"
+            :key="item.path"
+            :index="item.path"
+            @click="clickMenu(item)"
+          >
+            <i :class="'el-icon-' + item.icon"></i>
+            <span slot="title">{{ item.label }}</span>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </div>
 </template>
@@ -47,45 +53,7 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {
-      asideMenu: [
-        {
-          path: "/home",
-          name: "home",
-          label: "首页",
-          icon: "s-home"
-        },
-        {
-          path: "/video",
-          name: "video",
-          label: "视频管理",
-          icon: "video-camera"
-        },
-        {
-          path: "/user",
-          name: "user",
-          label: "用户管理",
-          icon: "user"
-        },
-        {
-          label: "其他",
-          children: [
-            {
-              path: "/page1",
-              name: "page1",
-              label: "页面一",
-              icon: "video-camera"
-            },
-            {
-              path: "/page2",
-              name: "page2",
-              label: "页面二",
-              icon: "user"
-            }
-          ]
-        }
-      ]
-    };
+    return {};
   },
   methods: {
     /**
@@ -104,6 +72,16 @@ export default {
     hasChild() {
       return this.asideMenu.filter(ele => ele.children);
     },
+    /**
+     * 得到要侧边栏信息
+     */
+    asideMenu() {
+      console.log(this.$store.state.tab.menuAll);
+      return this.$store.state.tab.menuAll;
+    },
+    /**
+     * 侧边栏是否展开
+     */
     ...mapState("tab", {
       collapse: state => state.isCollapse
     })
@@ -122,5 +100,10 @@ export default {
 }
 .el-menu-vertical-demo {
   height: 100%;
+}
+.systemtitle {
+  text-align: center;
+  line-height: 60px;
+  cursor: pointer;
 }
 </style>
